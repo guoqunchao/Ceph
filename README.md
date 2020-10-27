@@ -35,6 +35,51 @@ yum  clean all
 yum makecache
 ```
 
+### NTP安装
+```shell
+#安装
+yum install ntp
+#执行 最好在局域网内，建立自己的时间同步源。其中ntpdate 是客户端命令， 连接时间同步服务器，修改自己的时间。 一定要同步时间，
+ntpdate -s time-b.nist.gov  
+
+#修改 /etc/ntp.conf文件
+#注释下面4行
+server 0.centos.pool.ntp.org iburst
+server 1.centos.pool.ntp.org iburst
+server 2.centos.pool.ntp.org iburst
+server 3.centos.pool.ntp.org iburst
+
+#服务器节点修改如下
+server 127.127.1.0
+fudge  127.127.1.0 stratum 10
+
+#验证下
+ntpq –p –-查看ceph-admin的ntp服务器是否为自身
+remote           refid      st t when poll reach   delay  offset  jitter
+==========================================================================
+*LOCAL(0)        .LOCL.          10 l  28   64  377   0.000    0.000   0.000
+这样的输出证明已经配置成功了。
+
+#配置其他节点
+#其他服务器都连接admin节点，其中段: server 210.72.145.44   iburst
+Server 192.168.12.242 -----------–为ceph-admin的IP
+fudge  127.127.1.0 stratum 11
+
+#重启后检查
+systemctl restart ntpd 
+systemctl enable ntpd 
+#查看是否为ceph-admin
+ntpq –p  
+#结果如下
+remote           refid      st t when poll reach   delay  offset  jitter
+===========================================================================
+*ceph-admin      LOCAL(0)        11 u  13   64    1   1.236   -0.700   0.000
+Remote ：*ceph-admin
+Refid  ：LOCAL(0)
+如果是其他的，如：refid：init就为配置不成功，按此步骤在其他节点进行配置。
+
+```
+
 ### 部署ceph和ceph-deploy
 ```shell
 #每个主机安装 ceph
