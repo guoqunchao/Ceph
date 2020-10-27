@@ -1,4 +1,5 @@
 # ceph
+### 准备环境
 ```shell
 systemctl stop firewalld
 systemctl disable firewalld
