@@ -1,3 +1,4 @@
+# ceph
 ```shell
 systemctl stop firewalld
 systemctl disable firewalld
@@ -33,7 +34,7 @@ yum  clean all
 yum makecache
 ```
 
-#### 部署ceph和ceph-deploy
+### 部署ceph和ceph-deploy
 ```shell
 #每个主机安装 ceph
 yum install ceph -y
@@ -42,7 +43,7 @@ yum install ceph -y
 yum install ceph-deploy -y
 ```
 
-#### 部署监控节点（mon）
+### 部署监控节点（mon）
 ```shell
 ceph-deploy new ceph-admin ceph-node01 ceph-node02
 vim  /root/.cephdeploy.conf  #修改这个文件，添加：  overwrite_conf = true
@@ -50,7 +51,7 @@ ceph-deploy  --overwrite-conf  mon create-initial
 systemctl status ceph-mon@ceph-node01 #重启命令
 ```
 
-#### 部署mgr
+### 部署mgr
 ```shell
 ceph-deploy mgr create ceph-admin
 systemctl status ceph-mgr@ceph-admin
@@ -72,7 +73,7 @@ ceph       54684       1  0 15:25 ?        00:00:00 /usr/bin/ceph-mon -f --clust
 root       54775    1449  0 15:36 pts/0    00:00:00 grep --color=auto ceph
 ```
 
-#### 部署OSD
+### 部署OSD
 ```shell
 先要有挂载磁盘，用系统盘也可以，但是并不安全，这里有两个方案
 　　1.找几台新机器，OSD挂载的目录反正随便定，新机器上的数据都无所谓
@@ -84,12 +85,12 @@ ceph-deploy --overwrite-conf osd create --data /dev/sdb $HOSTNAME
 
 
 
-问题01 ImportError: No module named pkg_resources
+### 问题01 ImportError: No module named pkg_resources
 ```shell
 yum -y install python2-pip
 ```
 
-问题02 admin_socket: exception getting command descriptions: [Errno 2] No such file or directory
+### 问题02 admin_socket: exception getting command descriptions: [Errno 2] No such file or directory
 ```shell
 iptables -F
 getenforce
