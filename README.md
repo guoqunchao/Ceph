@@ -187,6 +187,38 @@ reboot
 ```
 
 
+### 问题05 ceph:health_warn clock skew detected on mon的解决办法
+```shell
+# 造成集群状态health_warn：clock skew detected on mon节点的原因有两个，一个是mon节点上ntp服务器未启动，另一个是ceph设置的mon的时间偏差阈值比较小。
+1、确认ntp服务是否正常工作
+systemctl status ntpd
+
+2、修改ceph配置中的时间偏差阈值
+vim ~/ceph.conf
+在global字段下添加：
+mon clock drift allowed = 2
+mon clock drift warn backoff = 30
+
+# 向需要同步的mon节点推送配置文件，命令如下：
+ceph-deploy --overwrite-conf config push node{1,2,3}
+systemctl restart ceph-mon.target
+
+[root@ceph-admin ~]# ceph -s
+  cluster:
+    id:     a0b96b48-aeec-4da3-8609-f41630b92367
+    health: HEALTH_OK
+ 
+  services:
+    mon: 3 daemons, quorum ceph-node02,ceph-node01,ceph-admin (age 2m)
+    mgr: ceph-admin(active, since 6m)
+    osd: 3 osds: 3 up (since 6m), 3 in (since 28m)
+ 
+  data:
+    pools:   0 pools, 0 pgs
+    objects: 0 objects, 0 B
+    usage:   3.0 GiB used, 57 GiB / 60 GiB avail
+    pgs:   
+```
 
 
 
