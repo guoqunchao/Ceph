@@ -158,7 +158,7 @@ rm -rf /var/log/ceph/*
 rm -rf /var/run/ceph/*
 ```
 
-### 问题3 [errno 2] error connecting to the cluster
+### 问题03 [errno 2] error connecting to the cluster
 ```shell
 find / -name ceph.client.admin.keyring
 /root/ceph.client.admin.keyring
@@ -168,7 +168,7 @@ ceph -s
 ceph health
 ```
 
-### 问题4 CEPH集群无法初始化OSD问题
+### 问题04 CEPH集群无法初始化OSD问题
 ```shell
 # 安装ceph的osd时.运行清空磁盘命令
 ceph-deploy disk zap ceph-node01 /dev/sdb
