@@ -115,7 +115,8 @@ find / -name ceph.client.admin.keyring
 /root/ceph.client.admin.keyring
 cp -a  /root/ceph.client.admin.keyring  /etc/ceph/
 chmod +r ceph.client.admin.keyring
-
+ceph -s
+ceph health
 ```
 
 
