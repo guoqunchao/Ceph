@@ -102,6 +102,13 @@ rm -rf /var/log/ceph/*
 rm -rf /var/run/ceph/*
 ```
 
+### 问题3 创建osd失败
+```shell
+[ceph-admin][ERROR ] RuntimeError: command returned non-zero exit status: 1
+[ceph_deploy.osd][ERROR ] Failed to execute command: /usr/sbin/ceph-volume --cluster ceph lvm create --bluestore --data /dev/sdb
+[ceph_deploy][ERROR ] GenericError: Failed to create 1 OSDs
+```
+
 
 
 
