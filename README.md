@@ -109,6 +109,15 @@ rm -rf /var/run/ceph/*
 [ceph_deploy][ERROR ] GenericError: Failed to create 1 OSDs
 ```
 
+### 问题4 [errno 2] error connecting to the cluster
+```shell
+find / -name ceph.client.admin.keyring
+/root/ceph.client.admin.keyring
+cp -a  /root/ceph.client.admin.keyring  /etc/ceph/
+chmod +r ceph.client.admin.keyring
+
+```
+
 
 
 
