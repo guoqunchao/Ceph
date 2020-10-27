@@ -62,9 +62,17 @@ ceph-deploy mgr create ceph-admin
 yum -y install python2-pip
 ```
 
-
-
-
+问题02 admin_socket: exception getting command descriptions: [Errno 2] No such file or directory
+```shell
+iptables -F
+getenforce
+setenforce 0
+# 删除之前版本ceph残留的文件
+rm -rf /etc/ceph/*
+rm -rf /var/lib/ceph/*/*
+rm -rf /var/log/ceph/*
+rm -rf /var/run/ceph/*
+```
 
 
 
