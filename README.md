@@ -45,7 +45,7 @@ yum install ceph-deploy -y
 #### 部署监控节点（mon）
 ```shell
 ceph-deploy new ceph-admin ceph-node01 ceph-node02
-vim  / root/.cephdeploy.conf  #修改这个文件，添加：  overwrite_conf = true
+vim  /root/.cephdeploy.conf  #修改这个文件，添加：  overwrite_conf = true
 ceph-deploy  --overwrite-conf  mon create-initial
 systemctl status ceph-mon@ceph-node01 #重启命令
 ```
