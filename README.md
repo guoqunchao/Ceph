@@ -112,14 +112,7 @@ rm -rf /var/log/ceph/*
 rm -rf /var/run/ceph/*
 ```
 
-### 问题3 创建osd失败
-```shell
-[ceph-admin][ERROR ] RuntimeError: command returned non-zero exit status: 1
-[ceph_deploy.osd][ERROR ] Failed to execute command: /usr/sbin/ceph-volume --cluster ceph lvm create --bluestore --data /dev/sdb
-[ceph_deploy][ERROR ] GenericError: Failed to create 1 OSDs
-```
-
-### 问题4 [errno 2] error connecting to the cluster
+### 问题3 [errno 2] error connecting to the cluster
 ```shell
 find / -name ceph.client.admin.keyring
 /root/ceph.client.admin.keyring
@@ -129,6 +122,23 @@ ceph -s
 ceph health
 ```
 
+### 问题4 CEPH集群无法初始化OSD问题
+```shell
+# 安装ceph的osd时.运行清空磁盘命令
+ceph-deploy disk zap ceph-node01 /dev/sdb
+[node3-ceph][WARNIN]  stderr: wipefs: error: /dev/sdb: probing initialization failed: Device or resource busy
+[node3-ceph][WARNIN] --> failed to wipefs device, will try again to workaround probable race condition
+
+ceph-deploy osd create --data /dev/sdb ceph-admin
+[ceph-admin][ERROR ] RuntimeError: command returned non-zero exit status: 1
+[ceph_deploy.osd][ERROR ] Failed to execute command: /usr/sbin/ceph-volume --cluster ceph lvm create --bluestore --data /dev/sdb
+[ceph_deploy][ERROR ] GenericError: Failed to create 1 OSDs
+
+
+# 遇到这种报错时，只能上这台机器，手动进行dd命令清空磁盘并重启
+dd if=/dev/zero of=/dev/sdb bs=512K count=1
+reboot
+```
 
 
 
