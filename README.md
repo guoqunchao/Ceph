@@ -84,6 +84,16 @@ ceph-deploy --overwrite-conf osd create --data /dev/sdb $HOSTNAME
 ```
 
 
+### 部署dashboard
+```shell
+yum install -y ceph-mgr-dashboard
+ceph mgr module enable dashboard
+ceph dashboard create-self-signed-cert  
+ceph dashboard set-login-credentials  admin 111111
+https://192.168.12.242:8443
+```
+
+
 
 ### 问题01 ImportError: No module named pkg_resources
 ```shell
