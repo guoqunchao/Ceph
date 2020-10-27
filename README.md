@@ -40,11 +40,27 @@ yum install ceph -y
 
 #Admin节点安装
 yum install ceph-deploy -y
+```
 
-ceph-deploy new ceph-node01 ceph-node02
+#### 部署监控节点（mon）
+```shell
+ceph-deploy new ceph-admin ceph-node01 ceph-node02
+vim  / root/.cephdeploy.conf  #修改这个文件，添加：  overwrite_conf = true
+ceph-deploy  --overwrite-conf  mon create-initial
+systemctl status ceph-mon@ceph-node01 #重启命令
+```
+
+#### 部署mgr
+```shell
+ceph-deploy mgr create ceph-admin
 ```
 
 
+
+问题01 ImportError: No module named pkg_resources
+```shell
+yum -y install python2-pip
+```
 
 
 
